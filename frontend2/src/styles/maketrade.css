@@ -1,0 +1,58 @@
+.make-trade-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Ensures the container takes full viewport height */
+    width: 100vw; /* Ensures the container takes full viewport width */
+    background-color: #f4f4f4; /* Soft background color */
+}
+
+.make-trade-container > div {
+    background-color: white; /* Background color of the form container */
+    padding: 40px; /* Padding around the form */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Subtle shadow for depth */
+    width: 100%;
+    max-width: 500px; /* Maximum width of the form */
+    box-sizing: border-box; /* Ensures padding does not affect width */
+}
+
+.make-trade-container form {
+    display: grid;
+    gap: 20px; /* Space between form elements */
+}
+
+.make-trade-container label {
+    display: block;
+    margin-bottom: 5px; /* Space below the label */
+    font-weight: bold;
+}
+
+.make-trade-container input[type="text"],
+.make-trade-container textarea,
+.make-trade-container input[type="file"] {
+    width: 100%; /* Full width of the form */
+    padding: 10px; /* Padding inside the input */
+    border: 1px solid #ccc; /* Subtle border */
+    border-radius: 4px; /* Rounded corners for inputs */
+}
+
+.make-trade-container textarea {
+    height: 100px; /* Fixed height for the textarea */
+    resize: none; /* Disables resizing of the textarea */
+}
+
+.make-trade-container button {
+    width: 100%; /* Full width of the form */
+    padding: 10px; /* Padding inside the button */
+    background-color: #007BFF; /* Blue background */
+    color: white; /* White text color */
+    border: none; /* No border */
+    border-radius: 4px; /* Rounded corners for the button */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-weight: bold;
+}
+
+.make-trade-container button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
