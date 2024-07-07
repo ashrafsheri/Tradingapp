@@ -38,8 +38,9 @@ This is a MERN stack trading application that allows users to trade stocks in re
    ```
 3. Install the dependencies:
    ```bash
+   cd backend
    npm install
-   cd client
+   cd frontend
    npm install
    cd ..
    ```
