@@ -1,6 +1,3 @@
-Sure! Here is the entire content formatted in Markdown:
-
-```markdown
 # MERN Trading App
 
 ## Overview
@@ -34,7 +31,7 @@ This is a MERN stack trading application that allows users to trade stocks in re
 1. Clone the repository:
    ```bash
    git clone https://github.com/your-username/mern-trading-app.git
-   ```
+
 2. Navigate to the project directory:
    ```bash
    cd mern-trading-app
