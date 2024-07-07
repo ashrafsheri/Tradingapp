@@ -5,9 +5,9 @@ const tradeSchema = new mongoose.Schema({
   username: String,
   title: { type: String, required: true },
   description: { type: String, required: true },
-  conditions: { type: String, required: false }, // Assuming conditions is a single string; adjust as needed.
-  imageUrl: { type: String, required: false } // Optional image URL field
-
+  conditions: { type: String, required: false },
+  imageUrl: { type: String, required: false },
+  status: { type: String, required: true, default: 'pending' } 
 });
 
 const Trade = mongoose.model("Trade", tradeSchema);

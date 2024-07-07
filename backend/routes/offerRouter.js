@@ -1,4 +1,3 @@
-// routes/offers.js or wherever you manage your routes
 import express from "express";
 import {
   createOffer,
@@ -13,7 +12,7 @@ import {
 const router = express.Router();
 
 router.post("/create", createOffer);
-router.get("/all", getAllOffers); // Route to get all offers
+router.get("/all", getAllOffers); 
 router.get("/user-offers/:username", getOffersByUser);
 router.get("/by-trade/:tradeId", getOffersByTrade);
 router.delete("/delete/:orderId", deleteOrderbyId);

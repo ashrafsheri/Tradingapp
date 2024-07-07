@@ -2,10 +2,11 @@
 import Offer from "../models/Offer.js";
 import mongoose from 'mongoose';
 import User from '../models/User.js';
+import Trade from '../models/Trade.js'; 
 
 export const getAllOffers = async (req, res) => {
   try {
-    const offers = await Offer.find({}); // Fetch all offers from the database
+    const offers = await Offer.find({}); 
     res.status(200).json(offers);
   } catch (error) {
     res
@@ -29,8 +30,8 @@ export const createOffer = async (req, res) => {
       quantity,
       tradeId,
       senderUsername,
-      tradeOwnerUsername: trade.ownerUsername,  // Assuming trade has an ownerUsername field
-      status: 'pending'  // Explicitly setting the status to pending on creation
+      tradeOwnerUsername: trade.ownerUsername, 
+      status: 'pending'  
     });
 
     const savedOffer = await newOffer.save();
@@ -44,7 +45,7 @@ export const createOffer = async (req, res) => {
 export const getOffersByUser = async (req, res) => {
   const { username } = req.params;
   try {
-    const offers = await Offer.find({ senderUsername: username }); // Adjust based on your schema, might be `senderUsername` or `tradeOwnerUsername`
+    const offers = await Offer.find({ senderUsername: username }); 
     res.status(200).json({ offers });
   } catch (error) {
     res
@@ -80,123 +81,11 @@ export const deleteOrderbyId = async (req, res) => {
   }
 };
 
-// export const acceptOffer = async (req, res) => {
-//   const { offerId } = req.params;
-//   try {
-//     const offer = await Offer.findByIdAndUpdate(offerId, { status: 'accepted' }, { new: true });
-//     if (!offer) {
-//       return res.status(404).json({ message: "Offer not found" });
-//     }
-//     res.status(200).json(offer);
-//   } catch (error) {
-//     console.error("Failed to accept offer:", error);
-//     res.status(500).json({ message: "Failed to accept offer", error: error.message });
-//   }
-// };
-
-// export const acceptOffer = async (req, res) => {
-//   const { offerId } = req.params;
-//   const session = await mongoose.startSession();
-//   session.startTransaction();
-//   try {
-//     // Fetch the offer with reference to trade and sender
-//     const offer = await Offer.findById(offerId)
-//       .populate('tradeOwnerUsername', 'accountValue')
-//       .populate('senderUsername', 'accountValue')
-//       .session(session);
-
-//     if (!offer) {
-//       await session.abortTransaction();
-//       session.endSession();
-//       return res.status(404).json({ message: "Offer not found" });
-//     }
-
-//     // Calculate the total value of the offer
-//     const transactionValue = offer.quantity * offer.price;
-
-//     // Update sender's account by subtracting the transaction value
-//     const updatedSender = await User.findOneAndUpdate(
-//       { username: offer.senderUsername.username },
-//       { $inc: { accountValue: -transactionValue } },
-//       { new: true, session }
-//     );
-
-//     // Update trade owner's account by adding the transaction value
-//     const updatedTradeOwner = await User.findOneAndUpdate(
-//       { username: offer.tradeOwnerUsername.username },
-//       { $inc: { accountValue: transactionValue } },
-//       { new: true, session }
-//     );
-
-//     // Mark the offer as accepted
-//     offer.status = 'accepted';
-//     await offer.save({ session });
-
-//     await session.commitTransaction();
-//     session.endSession();
-//     res.status(200).json({ offer, updatedSender, updatedTradeOwner });
-//   } catch (error) {
-//     await session.abortTransaction();
-//     session.endSession();
-//     console.error("Failed to accept offer:", error);
-//     res.status(500).json({ message: "Failed to accept offer", error: error.message });
-//   }
-// };
-
-
-
-// export const acceptOffer = async (req, res) => {
-//   const { offerId } = req.params;
-//   const session = await mongoose.startSession();
-//   session.startTransaction();
-//   try {
-//     // Fetch the offer with reference to the trade and sender
-//     const offer = await Offer.findById(offerId).session(session);
-
-//     if (!offer) {
-//       await session.abortTransaction();
-//       session.endSession();
-//       return res.status(404).json({ message: "Offer not found" });
-//     }
-
-//     // Calculate the total value of the offer
-//     const transactionValue = offer.quantity * offer.price;
-
-//     // Update sender's account by subtracting the transaction value
-//     const updatedSender = await User.findOneAndUpdate(
-//       { username: offer.senderUsername },
-//       { $inc: { accountValue: accountValue -transactionValue } },
-//       { new: true, session }
-//     );
-
-//     // Update trade owner's account by adding the transaction value
-//     const updatedTradeOwner = await User.findOneAndUpdate(
-//       { username: offer.tradeOwnerUsername },
-//       { $inc: { accountValue: transactionValue+accountValue } },
-//       { new: true, session }
-//     );
-
-//     // Mark the offer as accepted
-//     offer.status = 'accepted';
-//     await offer.save({ session });
-
-//     await session.commitTransaction();
-//     session.endSession();
-//     res.status(200).json({ offer, updatedSender, updatedTradeOwner });
-//   } catch (error) {
-//     await session.abortTransaction();
-//     session.endSession();
-//     console.error("Failed to accept offer:", error);
-//     res.status(500).json({ message: "Failed to accept offer", error: error.message });
-//   }
-// };
-
 export const acceptOffer = async (req, res) => {
   const { offerId } = req.params;
   const session = await mongoose.startSession();
   session.startTransaction();
   try {
-    // Fetch the offer with reference to the trade and sender
     const offer = await Offer.findById(offerId).session(session);
 
     if (!offer) {
@@ -205,30 +94,38 @@ export const acceptOffer = async (req, res) => {
       return res.status(404).json({ message: "Offer not found" });
     }
 
-    // Calculate the total value of the offer
     const transactionValue = offer.quantity * offer.price;
 
-    // Update sender's account by subtracting the transaction value
     const updatedSender = await User.findOneAndUpdate(
       { username: offer.senderUsername },
-      { $inc: { accountValue: -transactionValue } },  // Correct use of $inc to decrement
+      { $inc: { accountValue: -transactionValue } },  
       { new: true, session }
     );
 
-    // Update trade owner's account by adding the transaction value
     const updatedTradeOwner = await User.findOneAndUpdate(
       { username: offer.tradeOwnerUsername },
-      { $inc: { accountValue: transactionValue } },  // Correct use of $inc to increment
+      { $inc: { accountValue: transactionValue } },  
       { new: true, session }
     );
 
-    // Mark the offer as accepted
+    const updatedTrade = await Trade.findOneAndUpdate(
+      { _id: offer.tradeId },
+      { status: 'completed' },
+      { new: true, session }
+    );
+
+    if (!updatedTrade) {
+      await session.abortTransaction();
+      session.endSession();
+      return res.status(404).json({ message: "Trade not found" });
+    }
+
     offer.status = 'accepted';
     await offer.save({ session });
 
     await session.commitTransaction();
     session.endSession();
-    res.status(200).json({ offer, updatedSender, updatedTradeOwner });
+    res.status(200).json({ offer, updatedSender, updatedTradeOwner, updatedTrade });
   } catch (error) {
     await session.abortTransaction();
     session.endSession();
@@ -237,7 +134,7 @@ export const acceptOffer = async (req, res) => {
   }
 };
 
-// Reject an offer
+
 export const rejectOffer = async (req, res) => {
   const { offerId } = req.params;
   try {
