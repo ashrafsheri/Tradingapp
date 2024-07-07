@@ -45,11 +45,9 @@ This is a MERN stack trading application that allows users to trade stocks in re
    cd ..
    ```
 4. Set up environment variables:
-   Create a `.env` file in the root directory and add the following variables:
+   Update your Mongo URI in `db.js` file in the utils directory of backend folder and add the following variables:
    ```
    MONGO_URI=your_mongodb_connection_string
-   JWT_SECRET=your_jwt_secret
-   SOCKET_PORT=your_socket_port
    ```
 
 5. Start the server and client:
